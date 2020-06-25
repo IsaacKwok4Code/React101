@@ -3,6 +3,7 @@ import './App.css';
 import Header from './components/header/Header';
 import Content from './components/content/Content';
 import activities_data from './components/data/data';
+import Clock from './components/clock/Clock';
 
 class App extends Component {
   render(){
@@ -19,6 +20,7 @@ class App extends Component {
             <Header title="Settings"/>
             <Header title="Chat"/>
             <Content activities={activities}/>
+            <Clock />
           </div>
         </div>
       </div>

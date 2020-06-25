@@ -1,7 +1,9 @@
 import React , {Component} from 'react';
 import ActivityItem from '../activityItem/ActivityItem';
+import DataTwo from '../data/dataSet2';
 
 class Content extends Component{
+
     render(){
         const {activities} = this.props;
 
