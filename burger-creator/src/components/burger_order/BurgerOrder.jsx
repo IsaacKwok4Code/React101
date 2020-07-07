@@ -12,15 +12,19 @@ const controls = [
 function BurgerOrder(props){
     return(
         <div className="BuildControls">
+            <p>Current Price: <strong>{props.price.toFixed(2)}</strong></p>
             {controls.map( (controlObject) => (
                     <BurgerControlPanel 
                         key={controlObject.label} 
                         label={controlObject.label}
                         increased={() => props.ingredientIncreased(controlObject.type)}
                         decreased={() => props.ingredientDecreased(controlObject.type)}
+                        disabled={props.disabled[controlObject.type]}
                          />
                 ))
             }
+            <button className="OrderButton"
+            onClick={props.ordered}>Checkout</button>
         </div>
     );
 }

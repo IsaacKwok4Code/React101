@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import Auxiliary from '../../layout_components/auxiliary/Auxiliary';
 import BurgerDisplay from '../burger_display/BurgerDisplay';
 import BurgerControlPanel from '../burger_order/BurgerOrder';
+import OrderModal from '../modal/order_modal/OrderModal';
+import OrderSummary from '../OrderSummary/OrderSummary';
 
 const INGREDIENT_PRICES = {
     salad: 0.5,
@@ -24,11 +26,20 @@ class BurgerBuilder extends Component{
             purchasable: false,
             purchasing: false
         }
+
+    }
+
+    purchaseHandler = () => {
+        this.setState({purchasing: true});
+    }
+
+    purchaseCancelHandler = () => {
+        this.setState({purchasing: false});
     }
 
     addIngredientHandler = (type) =>{
         //Get the previus number of the ingredient
-        let oldCount = this.state.ingredients[type];
+        let oldCount = this.state.ingredients[type]; 
         //number + 1
         let updatedCount = oldCount + 1;
         //copy state object
@@ -73,8 +84,25 @@ class BurgerBuilder extends Component{
     }
 
     render () {
+
+        const disabledInfo = {
+            ...this.state.ingredients
+        };
+        for ( let key in disabledInfo ) {
+            disabledInfo[key] = disabledInfo[key] <= 0
+        }
+
+        console.log(disabledInfo);
+ 
         return (
             <Auxiliary>
+                <OrderModal show={this.state.purchasing} modalClosed={this.purchaseCancelHandler}>
+                    <OrderSummary 
+                    ingredients={this.state.ingredients}
+                    price={this.state.totalPrice}
+                    purchaseCancelled={this.purchaseCancelHandler}
+                    purchaseContinued={this.purchaseContinueHandler} />
+                </OrderModal>
                 <div>
                     <BurgerDisplay ingredients = {this.state.ingredients}/>
                 </div>
@@ -83,6 +111,9 @@ class BurgerBuilder extends Component{
                         
                         ingredientIncreased={this.addIngredientHandler}
                         ingredientDecreased={this.removeIngredientHandler}
+                        disabled={disabledInfo}
+                        price={this.state.totalPrice}
+                        ordered={this.purchaseHandler}
                          />
                 </div>
             </Auxiliary>
